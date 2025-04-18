@@ -6,7 +6,7 @@ import pandas as pd
 
 class Position:
 
-	def __init__(self, ticker = "GSPC", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0):
+	def __init__(self, ticker = "AAPL", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0, opt_expiry = pd.to_datetime("1899-01-01")):
 		self.ticker = ticker
 		self.strike_price = strike_price
 		self.balance = balance
@@ -16,6 +16,7 @@ class Position:
 		self.stk_buy_price = stk_buy_price
 		self.stk_unrealised = stk_unrealised
 		self.opt_unrealised = opt_unrealised
+		self.opt_expiry = opt_expiry
 		self.lot_size = lot_size
 
 	def print_attributes(self):
@@ -82,25 +83,9 @@ class Position:
 		self.opt_sell_price = 0
 		self.opt_unrealised = 0
 		self.strike_price = 0
+		self.opt_expiry = pd.to_datetime("0000-00-00")
 
 		return realised
 
 
-#test it
-position = Position(ticker = "AAPL", strike_price = 270.00, lot_size = 10)
-position.buy_stocks(240.00)
-position.sell_option(2.00)
-position.calculate_stk_unrealised(200.00)
-position.calculate_opt_unrealised(1)
-print("-----------------------------------------")
-print("-----------------------------------------")
-position.print_attributes()
-print("-----------------------------------------")
 
-position.calculate_stk_unrealised(245)
-position.calculate_opt_unrealised(1.5)
-position.print_attributes()
-print("-----------------------------------------")
-
-position.calculate_opt_realised()
-position.print_attributes()

@@ -1,5 +1,5 @@
-import yfinance as yf 
-import pandas as pd 
+import pandas as pd
+import yfinance as yf
 
 ##Create a that fetches the options
 class FetchOptionData:
@@ -70,9 +70,3 @@ class FetchOptionData:
 		return option_chain
 
 #testing
-
-fetch_option_data = FetchOptionData(ticker = "AAPL")
-print(fetch_option_data.pick_expiry())
-print(fetch_option_data.pick_strike_price(current_price = 196.94))
-print(fetch_option_data.fetch_strike_data())
-print(fetch_option_data.fetch_atm_data())

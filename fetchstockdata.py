@@ -1,5 +1,4 @@
-import yfinance as yf 
-import pandas as pd 
+import yfinance as yf
 
 class FetchStockData:
 
@@ -16,8 +15,4 @@ class FetchStockData:
 
 		return self.ticker.history(period = "1D").reset_index()
 
-
-fetchstockdata = FetchStockData("AAPL")
-print(fetchstockdata.fetch_latest_day_data())
-print(fetchstockdata.fetch_latest_day_data().columns)
 

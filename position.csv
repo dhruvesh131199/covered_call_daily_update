@@ -1,0 +1,2 @@
+date,ticker,strike_price,balance,stk_qty,opt_qty,opt_sell_price,stk_buy_price,stk_unrealised,opt_unrealised,opt_expiry,lot_size
+2012-01-01,AAPL,200,50000.45,10,10,12,150,-300,34,2012-03-01,100

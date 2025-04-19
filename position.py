@@ -1,4 +1,3 @@
-import yfinance as yf
 import pandas as pd 
 
 ##Create a class that tracks the position at any given time
@@ -6,7 +5,8 @@ import pandas as pd
 
 class Position:
 
-	def __init__(self, ticker = "AAPL", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0, opt_expiry = pd.to_datetime("1899-01-01")):
+	def __init__(self, date= "1899-01-01", ticker = "AAPL", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0, opt_expiry = pd.to_datetime("1899-01-01")):
+		self.date = date
 		self.ticker = ticker
 		self.strike_price = strike_price
 		self.balance = balance
@@ -18,6 +18,50 @@ class Position:
 		self.opt_unrealised = opt_unrealised
 		self.opt_expiry = opt_expiry
 		self.lot_size = lot_size
+
+	#Fetch latest position from position.csv file to create a class
+	@classmethod
+	def fetch_last_position(cls, filename="position.csv"):
+		df = pd.read_csv(filename)
+		last_position = df.iloc[-1]
+		return cls(
+			date = str(last_position["date"]),
+			ticker = str(last_position["ticker"]),
+			strike_price = float(last_position["strike_price"]),
+			balance = float(last_position["balance"]),
+			stk_qty = int(last_position["stk_qty"]),
+			opt_qty = int(last_position["opt_qty"]),
+			opt_sell_price = float(last_position["opt_sell_price"]),
+			stk_buy_price = float(last_position["stk_buy_price"]),
+			stk_unrealised = float(last_position["stk_unrealised"]),
+			opt_unrealised = float(last_position["opt_unrealised"]),
+			opt_expiry = pd.to_datetime(last_position["opt_expiry"]),
+			lot_size = float(last_position["lot_size"])
+			)
+
+	#Create a method that updates the position.csv file
+	#Adds the latest position to the csv file
+	#Create a dictionary of the attributes and append it to the csv file
+	def update_position_file(self, filename="position.csv"):
+		attributes_dict = {
+		"date": self.date,
+		"ticker": self.ticker,
+		"strike_price": self.strike_price,
+		"balance": self.balance,
+		"stk_qty": self.stk_qty,
+		"opt_qty": self.opt_qty,
+		"opt_sell_price": self.opt_sell_price,
+		"stk_buy_price": self.stk_buy_price,
+		"stk_unrealised": self.stk_unrealised,
+		"opt_unrealised": self.opt_unrealised,
+		"opt_expiry": self.opt_expiry.strftime("%Y-%m-%d"),
+		"lot_size": self.lot_size
+		}
+
+		df = pd.DataFrame([attributes_dict])
+		df.to_csv(filename, mode = "a", header = False, index = False)
+
+		return attributes_dict
 
 	def print_attributes(self):
 		for key, value in self.__dict__.items():
@@ -53,7 +97,7 @@ class Position:
 
 		return realised
 
-	def sell_option(self, sell_price):
+	def sell_option(self, sell_price, strike_price, opt_expiry):
 		#This method is called to create a short position in option
 		#The qty would be the multiple of lot size and <= stk_qty
 		#We can only short option if stk_qty>=lot_size
@@ -62,6 +106,8 @@ class Position:
 			sold_lots = self.stk_qty // self.lot_size
 			self.opt_qty = -1 * (sold_lots * self.lot_size)
 			self.opt_sell_price = sell_price
+			self.strike_price = strike_price
+			self.opt_expiry = opt_expiry
 		else:
 			print("You need to buy stocks first to short option")
 
@@ -83,9 +129,6 @@ class Position:
 		self.opt_sell_price = 0
 		self.opt_unrealised = 0
 		self.strike_price = 0
-		self.opt_expiry = pd.to_datetime("0000-00-00")
+		self.opt_expiry = pd.to_datetime("1899-01-01")
 
 		return realised
-
-
-

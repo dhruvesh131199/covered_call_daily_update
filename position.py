@@ -5,8 +5,8 @@ import pandas as pd
 
 class Position:
 
-	def __init__(self, date= "1899-01-01", ticker = "AAPL", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0, opt_expiry = pd.to_datetime("1899-01-01")):
-		self.date = date
+	def __init__(self, date= pd.to_datetime("1899-01-01").date(), ticker = "AAPL", strike_price = 0.00, balance = 10000, stk_qty = 0, opt_qty = 0, opt_sell_price = 0, stk_buy_price = 0, stk_unrealised = 0, stk_realised = 0, opt_unrealised = 0, opt_realised = 0, lot_size = 0, opt_expiry = pd.to_datetime("1899-01-01").date(), isNewDay = False):
+		self.date = date             #Always pass pd_Timestamp.date()
 		self.ticker = ticker
 		self.strike_price = strike_price
 		self.balance = balance
@@ -18,6 +18,7 @@ class Position:
 		self.opt_unrealised = opt_unrealised
 		self.opt_expiry = opt_expiry
 		self.lot_size = lot_size
+		self.isNewDay = isNewDay
 
 	#Fetch latest position from position.csv file to create a class
 	@classmethod
@@ -25,7 +26,7 @@ class Position:
 		df = pd.read_csv(filename)
 		last_position = df.iloc[-1]
 		return cls(
-			date = str(last_position["date"]),
+			date = pd.to_datetime(last_position["date"]).date(),
 			ticker = str(last_position["ticker"]),
 			strike_price = float(last_position["strike_price"]),
 			balance = float(last_position["balance"]),
@@ -35,8 +36,9 @@ class Position:
 			stk_buy_price = float(last_position["stk_buy_price"]),
 			stk_unrealised = float(last_position["stk_unrealised"]),
 			opt_unrealised = float(last_position["opt_unrealised"]),
-			opt_expiry = pd.to_datetime(last_position["opt_expiry"]),
-			lot_size = float(last_position["lot_size"])
+			opt_expiry = pd.to_datetime(last_position["opt_expiry"]).date(),
+			lot_size = float(last_position["lot_size"]),
+			isNewDay = bool(last_position["isNewDay"])
 			)
 
 	#Create a method that updates the position.csv file
@@ -44,7 +46,7 @@ class Position:
 	#Create a dictionary of the attributes and append it to the csv file
 	def update_position_file(self, filename="position.csv"):
 		attributes_dict = {
-		"date": self.date,
+		"date": self.date.strftime("%Y-%m-%d"),
 		"ticker": self.ticker,
 		"strike_price": self.strike_price,
 		"balance": self.balance,
@@ -55,7 +57,8 @@ class Position:
 		"stk_unrealised": self.stk_unrealised,
 		"opt_unrealised": self.opt_unrealised,
 		"opt_expiry": self.opt_expiry.strftime("%Y-%m-%d"),
-		"lot_size": self.lot_size
+		"lot_size": self.lot_size,
+		"isNewDay": self.isNewDay
 		}
 
 		df = pd.DataFrame([attributes_dict])

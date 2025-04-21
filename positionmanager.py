@@ -53,7 +53,7 @@ class PositionManager:
 		if stock_close > self.position.strike_price:
 			stk_realized = self.position.calculate_stk_realised()
 
-		self.position.isNewDay = False
+		self.position.isNewDay = True
 		return (stk_realized, opt_realized)
 
 	def update_unrealized(self, fetch_option_data, fetch_stock_data):

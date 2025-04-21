@@ -131,7 +131,5 @@ class Position:
 		self.opt_qty = 0
 		self.opt_sell_price = 0
 		self.opt_unrealised = 0
-		self.strike_price = 0
-		self.opt_expiry = pd.to_datetime("1899-01-01")
 
 		return realised

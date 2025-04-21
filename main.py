@@ -32,6 +32,7 @@ def main():
 	#Close the position if it an expiry day
 	stk_realized = 0
 	opt_realized = 0
+
 	if position.opt_expiry.strftime("%Y-%m-%d") == pd.Timestamp.today().strftime("%Y-%m-%d"):
 		stk_realized, opt_realized = position_manager.close_position(fetch_option_data, fetch_stock_data)
 

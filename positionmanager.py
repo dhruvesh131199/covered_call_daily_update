@@ -50,7 +50,7 @@ class PositionManager:
 		stk_realized = 0
 
 		#if stock price crossed the strike price, then realise the stock profit
-		if stock_close > position.strike_price:
+		if stock_close > self.position.strike_price:
 			stk_realized = self.position.calculate_stk_realised()
 
 		self.position.isNewDay = False

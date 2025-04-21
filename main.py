@@ -6,16 +6,11 @@ from fetchstockdata import FetchStockData
 from positionmanager import PositionManager
 from math import sqrt
 
-position = Position.fetch_last_position()
-fetch_option_data = FetchOptionData(ticker = position.ticker)
-fetch_stock_data = FetchStockData(ticker = position.ticker)
-position_manager = PositionManager(position)
-
 def main():
     
     #We create all the class instances
 	position = Position.fetch_last_position()
-	fetch_option_data = FetchOptionData(ticker = position.ticker)
+	fetch_option_data = FetchOptionData(position.strike_price, position.opt_expiry, ticker = position.ticker)
 	fetch_stock_data = FetchStockData(ticker = position.ticker)
 	position_manager = PositionManager(position)
 

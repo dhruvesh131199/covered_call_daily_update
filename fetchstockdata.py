@@ -2,7 +2,7 @@ import yfinance as yf
 
 class FetchStockData:
 
-	def __init__(self, ticker = "GSPC"):
+	def __init__(self, ticker = "AAPL"):
 
 		self.ticker = yf.Ticker(ticker)
 

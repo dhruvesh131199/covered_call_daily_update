@@ -4,7 +4,7 @@ import yfinance as yf
 ##Create a that fetches the options
 class FetchOptionData:
 
-	def __init__(self, ticker = "GSPC", strike_price = 0.0, expiry = pd.to_datetime("1899-01-01")):
+	def __init__(self, strike_price, expiry, ticker = "AAPL"):
 		self.ticker = yf.Ticker(ticker)
 		self.strike_price = strike_price
 		self.expiry = expiry
@@ -15,7 +15,17 @@ class FetchOptionData:
 		#We pick a nearest expiry to trade and create a position
 		#Set this expiry to self.expiry for this class and Position class
 
-		self.expiry = min(pd.to_datetime(list(self.ticker.options)))
+		expiries = pd.to_datetime(list(self.ticker.options))
+		expiries = sorted(expiries)
+
+		#Incase yahoo finance provides the expiry date which are already expired,
+		#We handle it below
+
+		if pd.Timestamp.today().strftime("%Y-%m-%d") >= expiries[0].strftime("%Y-%m-%d"):
+			self.expiry = expiries[1]
+		else:
+			self.expiry = expiries[0]
+
 		return self.expiry
 
 
@@ -68,5 +78,3 @@ class FetchOptionData:
 		option_chain = option_chain.head(1)
 
 		return option_chain
-
-#testing

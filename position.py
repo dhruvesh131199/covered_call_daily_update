@@ -110,7 +110,7 @@ class Position:
 			self.opt_qty = -1 * (sold_lots * self.lot_size)
 			self.opt_sell_price = sell_price
 			self.strike_price = strike_price
-			self.opt_expiry = opt_expiry
+			self.opt_expiry = opt_expiry.date()
 		else:
 			print("You need to buy stocks first to short option")
 

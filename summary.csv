@@ -1,2 +1,3 @@
 Date,Ticker,Stock_qty,Stock_buy_price,Stock_close_price,Option_strike,Option_expiry,Option_qty,Option_sell_price,Option_ask_price,Stock_unrealized,Option_unrealized,Total_unrealized,Stock_realized,Option_realized,Total_realized
-2025-04-17,AAPL,253.0,197.2,196.98,210.0,2025-04-25,-200.0,0.54,0.56,-55.66,-4.0,-59.66,0,0,0
+2025-04-15,AAPL,253.0,197.2,196.98,212.5,2025-04-25,-200.0,0.33,0.35,-55.66,-4.0,-59.66,0,0,0
+2025-04-16,AAPL,253,197.2,196.98,212.5,2025-04-25,-200,0.33,0.35,-55.66,-4.0,-59.66,0,0,0

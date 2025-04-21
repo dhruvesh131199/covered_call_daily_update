@@ -62,6 +62,7 @@ class Position:
 		}
 
 		df = pd.DataFrame([attributes_dict])
+		df = df.round(2)
 		df.to_csv(filename, mode = "a", header = False, index = False)
 
 		return attributes_dict

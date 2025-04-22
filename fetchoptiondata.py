@@ -65,7 +65,7 @@ class FetchOptionData:
 		option_chain = option_chain.calls
 		option_chain = option_chain[option_chain["strike"] == self.strike_price]
 
-		return option_chain
+		return option_chain.round(2)
 
 	def fetch_atm_data(self):
 
@@ -78,6 +78,6 @@ class FetchOptionData:
 		option_chain = option_chain.sort_values(by = "strike")
 		option_chain = option_chain.head(1)
 
-		return option_chain
+		return option_chain.round(2)
 
 #testing

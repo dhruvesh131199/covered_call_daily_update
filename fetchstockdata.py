@@ -13,6 +13,6 @@ class FetchStockData:
 		#Columns: ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'Dividends', 'Stock Splits']
 
 
-		return self.ticker.history(period = "1D").reset_index()
+		return self.ticker.history(period = "1D").reset_index().round(2)
 
 

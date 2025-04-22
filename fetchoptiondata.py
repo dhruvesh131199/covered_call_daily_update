@@ -81,5 +81,3 @@ class FetchOptionData:
 		return option_chain
 
 #testing
-position = Position.fetch_last_position()
-fod = FetchOptionData(position.strike_price, pd.to_datetime("2025-04-25").date())

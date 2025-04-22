@@ -27,6 +27,8 @@ def main():
 
 	#Create a new position if it is a new day
 	if position.isNewDay:
+		print("It's new day")
+		print("We sell new option contract")
 		position_manager.create_a_new_position(fetch_option_data, fetch_stock_data)
 
 	#Close the position if it an expiry day
@@ -34,12 +36,15 @@ def main():
 	opt_realized = 0
 
 	if position.opt_expiry.strftime("%Y-%m-%d") == pd.Timestamp.today().strftime("%Y-%m-%d"):
+		print("It is an expiry day")
+		print("We realise the profit and loss")
 		stk_realized, opt_realized = position_manager.close_position(fetch_option_data, fetch_stock_data)
 
 	position_manager.update_unrealized(fetch_option_data, fetch_stock_data)
 
 	position = position_manager.position   #update the position, it is updated in the position_manaeger
 	position.update_position_file()
+	print("Updated the position file")
 
 	#Summary sheet creation
 	summary_dict = {
@@ -64,6 +69,24 @@ def main():
 	summary = pd.DataFrame([summary_dict])
 	summary = summary.round(2)
 	summary.to_csv("summary.csv", mode = "a", header = False, index = False)
+	print("Updated the summary file")
+
+	#Let's save the ATM implied volatility each day
+	option_data_atm = fetch_option_data.fetch_atm_data()
+	implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
+	days_till_next_expiry = (pd.Timestamp(position.opt_expiry) - pd.Timestamp.today()).days
+	volatility_till_expiry = (implied_vol * sqrt(days_till_next_expiry/252))
+
+	volatility_dict = {
+	"Date": position.date.strftime("%Y-%m-%d"),
+	"Implied_volatility": implied_vol,
+	"Days_till_expiry": int(days_till_next_expiry) + 1,
+	"volatility_till_expiry": volatility_till_expiry
+	}
+	volatility = pd.DataFrame([volatility_dict])
+	volatility = volatility.round(2)
+	volatility.to_csv("volatility.csv", mode = "a", header = False, index = False)
+	print("Updated the volatility file")
 
 
 if __name__ == "__main__":

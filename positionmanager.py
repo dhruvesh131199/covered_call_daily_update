@@ -26,8 +26,8 @@ class PositionManager:
 		option_data_atm = fetch_option_data.fetch_atm_data()
 		implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
 
-		days_to_next_expiry = (expiry - pd.Timestamp.today()).days
-		vol_till_next_expiry = (implied_vol * sqrt(days_to_next_expiry/252) ) + 0.01
+		days_to_next_expiry = int((expiry - pd.Timestamp.today()).days) + 1
+		vol_till_next_expiry = (implied_vol * sqrt(days_to_next_expiry/252) )
 
 		strike_price = fetch_option_data.pick_strike_price(stock_data.loc[0]["Close"], percentage_away = vol_till_next_expiry)
 		option_data_strike = fetch_option_data.fetch_strike_data()

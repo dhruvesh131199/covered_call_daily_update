@@ -35,7 +35,7 @@ def main():
 	stk_realized = 0
 	opt_realized = 0
 
-	if position.opt_expiry.strftime("%Y-%m-%d") == "2025-04-25": #pd.Timestamp.today().strftime("%Y-%m-%d"):
+	if position.opt_expiry.strftime("%Y-%m-%d") == pd.Timestamp.today().strftime("%Y-%m-%d"):
 		print("It is an expiry day")
 		print("We realise the profit and loss")
 		stk_realized, opt_realized = position_manager.close_position(fetch_option_data, fetch_stock_data)
@@ -94,6 +94,8 @@ def main():
 		volatility = volatility.round(2)
 		volatility.to_csv("volatility.csv", mode = "a", header = False, index = False)
 		print("Updated the volatility file")
+	else:
+		print("Volatility sheet is not updated on expiry day")
 
 
 if __name__ == "__main__":

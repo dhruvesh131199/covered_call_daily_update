@@ -27,7 +27,7 @@ class PositionManager:
 		implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
 
 		days_to_next_expiry = int((expiry - pd.Timestamp.today()).days) + 1
-		vol_till_next_expiry = (implied_vol * sqrt(days_to_next_expiry/252) )
+		vol_till_next_expiry = (implied_vol * sqrt(days_to_next_expiry/252))
 
 		strike_price = fetch_option_data.pick_strike_price(stock_data.loc[0]["Close"], percentage_away = vol_till_next_expiry)
 		option_data_strike = fetch_option_data.fetch_strike_data()
@@ -57,5 +57,12 @@ class PositionManager:
 		return (stk_realized, opt_realized)
 
 	def update_unrealized(self, fetch_option_data, fetch_stock_data):
+		#If it is an expiry day, we may not fetch the strike price from yahoo and it could lead to an error
+		#So we just pass 0 to calculate unrealised profit when it is an expiry
+		#When it is an expiry, we set self.position.isNewDay = True
+		#Other days, we can calculate unrealised profit by fetching strike price information and using ask price
+		if self.position.isNewDay:
+			self.position.calculate_opt_unrealised(0)
+		else:
+			self.position.calculate_opt_unrealised(fetch_option_data.fetch_strike_data().iloc[0]["ask"])
 		self.position.calculate_stk_unrealised(fetch_stock_data.fetch_latest_day_data().iloc[0]["Close"])
-		self.position.calculate_opt_unrealised(fetch_option_data.fetch_strike_data().iloc[0]["ask"])

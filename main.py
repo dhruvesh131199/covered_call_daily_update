@@ -35,7 +35,7 @@ def main():
 	stk_realized = 0
 	opt_realized = 0
 
-	if position.opt_expiry.strftime("%Y-%m-%d") == pd.Timestamp.today().strftime("%Y-%m-%d"):
+	if position.opt_expiry.strftime("%Y-%m-%d") == "2025-04-25": #pd.Timestamp.today().strftime("%Y-%m-%d"):
 		print("It is an expiry day")
 		print("We realise the profit and loss")
 		stk_realized, opt_realized = position_manager.close_position(fetch_option_data, fetch_stock_data)
@@ -47,6 +47,11 @@ def main():
 	print("Updated the position file")
 
 	#Summary sheet creation
+	if position.isNewDay:
+		option_ask_price = 0
+	else:
+		option_ask_price = fetch_option_data.fetch_strike_data().iloc[0]["ask"]
+
 	summary_dict = {
 	"Date": position.date.strftime("%Y-%m-%d"),
 	"Ticker": position.ticker,
@@ -57,7 +62,7 @@ def main():
 	"Option_expiry": position.opt_expiry,
 	"Option_qty": position.opt_qty,
 	"Option_sell_price": position.opt_sell_price,
-	"Option_ask_price": fetch_option_data.fetch_strike_data().iloc[0]["ask"],
+	"Option_ask_price": option_ask_price,
 	"Stock_unrealized": position.stk_unrealised,
 	"Option_unrealized": position.opt_unrealised,
 	"Total_unrealized": position.stk_unrealised + position.opt_unrealised,
@@ -71,22 +76,24 @@ def main():
 	summary.to_csv("summary.csv", mode = "a", header = False, index = False)
 	print("Updated the summary file")
 
-	#Let's save the ATM implied volatility each day
-	option_data_atm = fetch_option_data.fetch_atm_data()
-	implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
-	days_till_next_expiry = (pd.Timestamp(position.opt_expiry) - pd.Timestamp.today()).days
-	volatility_till_expiry = (implied_vol * sqrt(days_till_next_expiry/252))
+	#Let's save the ATM implied volatility each day, not on expiry day because it is zero
+	if position.isNewDay == False:
+		fetch_option_data.pick_expiry()
+		option_data_atm = fetch_option_data.fetch_atm_data()
+		implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
+		days_till_next_expiry = (pd.Timestamp(fetch_option_data.opt_expiry) - pd.Timestamp.today()).days
+		volatility_till_expiry = (implied_vol * sqrt(days_till_next_expiry/252))
 
-	volatility_dict = {
-	"Date": position.date.strftime("%Y-%m-%d"),
-	"Implied_volatility": implied_vol,
-	"Days_till_expiry": int(days_till_next_expiry) + 1,
-	"volatility_till_expiry": volatility_till_expiry
-	}
-	volatility = pd.DataFrame([volatility_dict])
-	volatility = volatility.round(2)
-	volatility.to_csv("volatility.csv", mode = "a", header = False, index = False)
-	print("Updated the volatility file")
+		volatility_dict = {
+		"Date": position.date.strftime("%Y-%m-%d"),
+		"Implied_volatility": implied_vol,
+		"Days_till_expiry": int(days_till_next_expiry) + 1,
+		"volatility_till_expiry": volatility_till_expiry
+		}
+		volatility = pd.DataFrame([volatility_dict])
+		volatility = volatility.round(2)
+		volatility.to_csv("volatility.csv", mode = "a", header = False, index = False)
+		print("Updated the volatility file")
 
 
 if __name__ == "__main__":

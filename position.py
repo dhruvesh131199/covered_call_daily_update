@@ -22,7 +22,7 @@ class Position:
 
 	#Fetch latest position from position.csv file to create a class
 	@classmethod
-	def fetch_last_position(cls, filename="position.csv"):
+	def fetch_last_position(cls, filename="sheets/position.csv"):
 		df = pd.read_csv(filename)
 		last_position = df.iloc[-1]
 		return cls(
@@ -44,7 +44,7 @@ class Position:
 	#Create a method that updates the position.csv file
 	#Adds the latest position to the csv file
 	#Create a dictionary of the attributes and append it to the csv file
-	def update_position_file(self, filename="position.csv"):
+	def update_position_file(self, filename="sheets/position.csv"):
 		attributes_dict = {
 		"date": self.date.strftime("%Y-%m-%d"),
 		"ticker": self.ticker,

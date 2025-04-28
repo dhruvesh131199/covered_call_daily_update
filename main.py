@@ -73,7 +73,7 @@ def main():
 
 	summary = pd.DataFrame([summary_dict])
 	summary = summary.round(2)
-	summary.to_csv("summary.csv", mode = "a", header = False, index = False)
+	summary.to_csv("sheets/summary.csv", mode = "a", header = False, index = False)
 	print("Updated the summary file")
 
 	#Let's save the ATM implied volatility each day, not on expiry day because it is zero
@@ -81,7 +81,7 @@ def main():
 		fetch_option_data.pick_expiry()
 		option_data_atm = fetch_option_data.fetch_atm_data()
 		implied_vol = option_data_atm.iloc[0]["impliedVolatility"]
-		days_till_next_expiry = (pd.Timestamp(fetch_option_data.opt_expiry) - pd.Timestamp.today()).days
+		days_till_next_expiry = (pd.Timestamp(fetch_option_data.expiry) - pd.Timestamp.today()).days
 		volatility_till_expiry = (implied_vol * sqrt(days_till_next_expiry/252))
 
 		volatility_dict = {
@@ -92,7 +92,7 @@ def main():
 		}
 		volatility = pd.DataFrame([volatility_dict])
 		volatility = volatility.round(2)
-		volatility.to_csv("volatility.csv", mode = "a", header = False, index = False)
+		volatility.to_csv("sheets/volatility.csv", mode = "a", header = False, index = False)
 		print("Updated the volatility file")
 	else:
 		print("Volatility sheet is not updated on expiry day")

@@ -2,7 +2,9 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: '0 23 * * *'  # 7 PM New York time (EDT), adjust if timezone changes
+    - cron: '0 23 * * *'    # 7:00 PM EDT
+    - cron: '30 23 * * *'   # 7:30 PM EDT
+    - cron: '0 0 * * *'     # 8:00 PM EDT (00:00 UTC next day)
   workflow_dispatch:       # Allows manual triggering
 
 jobs:

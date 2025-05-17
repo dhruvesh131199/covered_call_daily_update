@@ -52,7 +52,7 @@ def plot_investment_vs_strategy_graph():
 	# Styling
 	plt.xlabel('Date')
 	plt.ylabel('Portfolio value')
-	plt.title('Stock Close Price and Option Unrealized Over Time')
+	plt.title('Portfolio value with Simple Investment vs Covered Call Strategy')
 	plt.legend(loc='upper left')
 	plt.grid(True)
 	plt.xticks(rotation=45)

@@ -22,6 +22,19 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
 - Simple and extendable Python codebase.
 
 ## Demo
-![screenshot](images/sample_sheet.png)
+- Daily jobs on GitHub action workflow to update CSV files and the graph
 
+![screenshots](screenshots/daily1.JPG)
+![screenshots](screenshots/dailyjob2.JPG)
 
+- Position file
+
+![screenshots](screenshots/position.JPG)
+
+- Summary file
+
+![screenshots](screenshots/summary.JPG)
+
+- Covered Call vs Investment Graph
+
+![screenshots](screenshots/Strategy_vs_Investment_Returns.png)

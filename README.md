@@ -37,4 +37,4 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
 
 - Covered Call vs Investment Graph
 
-![screenshots](screenshots/Strategy_vs_Investment_Returns.png)
+![screenshots](sheets/Strategy_vs_Investment_Returns.png)

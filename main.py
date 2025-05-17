@@ -5,6 +5,7 @@ from position import Position
 from fetchstockdata import FetchStockData
 from positionmanager import PositionManager
 from math import sqrt
+from graph import plot_investment_vs_strategy_graph
 
 def main():
     
@@ -96,6 +97,9 @@ def main():
 		print("Updated the volatility file")
 	else:
 		print("Volatility sheet is not updated on expiry day")
+
+	plot_investment_vs_strategy_graph()
+	print("Graph plotted and saved to sheets")
 
 
 if __name__ == "__main__":

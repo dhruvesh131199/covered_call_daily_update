@@ -43,7 +43,7 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
 ## Logic flow
 - Check whether it's an expiry day, a new day, or in between days.
   - Expiry day: It is the day when the option contract expires. To check whether it is an expiry day or not, we use the option_expiry date from the last position.
-  - New day: This is the next trading day after the expiry day. On a new day, we sell new option contracts and buy stocks if we had to sell it on the expiry day. To check whether it is an expiry day or not, in the position file, we store boolean value as True on the expiry day to identify it's the next trading day after the expiry day.
+  - New day: This is the next trading day after the expiry day. On a new day, we sell new option contracts and buy stocks if we had to sell it on the expiry day. To check whether it is a new day or not, in the position file, we store a boolean value as True on the expiry day to identify it's the new day after the expiry day. After taking the actions, we set isNewDay back to False.
   - In between days: We don't take any actions on these days; we just update the position file, summary file, and graph on these days. If the isNewDay from last position is False, then it's a new day.
  
 - If it is an Expiry day.

@@ -7,11 +7,6 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
 - [Features](#features)
 - [Demo](#demo)
 - [Logic flow](#logic-flow)
-- [Usage](#usage)
-- [How It Works](#how-it-works)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -50,11 +45,11 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
   - If the stock price has closed above our strike price, we realise the gains for stocks on our strike price and add it to the balance. If not, we don't sell our stock gains, we only update the unrealised gains.
   - We always realise the option gains on expiry day by multiplying the sold option quantity and the last option_sell_price, and add it to the balance.
 
--If it is a New day.
-  - We check whether our stock quantity is 0 or not; if it is 0, it means we had to sell our stock on the last expiry day. So we buy stocks with the current balance we have.
-  - We fetch at-the-money implied volatility, convert it to weekly volatility, and choose an out-of-money strike price based on the calculated volatility for the week.
-  - To calculate option quantity, we divide the current stock quantity by 100(lot size for APPL), take the floor, and multiply it by the lot size.
-  - We sell the option contract at the bid price(Provided by Yahoo Finance).
+ - If it is a New day.
+   - We check whether our stock quantity is 0 or not; if it is 0, it means we had to sell our stock on the last expiry day. So we buy stocks with the current balance we have.
+   - We fetch at-the-money implied volatility, convert it to weekly volatility, and choose an out-of-money strike price based on the calculated volatility for the week.
+   - To calculate option quantity, we divide the current stock quantity by 100(lot size for APPL), take the floor, and multiply it by the lot size.
+   - We sell the option contract at the bid price(Provided by Yahoo Finance).
 
 - If it is an In-between day.
   - We simply fetch the Stock data, option data for our current strike price, and update unrealised profit/loss.
@@ -64,3 +59,4 @@ It updates a CSV file and a performance graph (in the sheets/ folder), allowing 
 - In the end, we update the position and summary file for the current trading day and save it to the sheets folder.
 - We plot the graph from the summary and position file and save it to the sheets folder
 - We also update the implied volatility file to track IV of the ATM.
+

@@ -104,3 +104,4 @@ Date,Implied_volatility,days_till_next_expiry,volatility_till_expiry
 2025-10-22,0.23,2,0.01
 2025-10-23,0.19,1,0.0
 2025-10-27,0.43,4,0.05
+2025-10-28,0.46,3,0.04

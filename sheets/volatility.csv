@@ -154,3 +154,4 @@ Date,Implied_volatility,days_till_next_expiry,volatility_till_expiry
 2026-01-26,0.45,4,0.05
 2026-01-27,0.47,3,0.04
 2026-01-28,0.54,2,0.03
+2026-01-29,0.75,1,0.0

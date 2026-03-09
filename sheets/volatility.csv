@@ -169,3 +169,4 @@ Date,Implied_volatility,days_till_next_expiry,volatility_till_expiry
 2026-03-02,0.25,2,0.02
 2026-03-03,0.24,1,0.0
 2026-03-05,0.22,1,0.0
+2026-03-09,0.27,2,0.02
